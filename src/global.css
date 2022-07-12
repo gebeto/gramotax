@@ -1,0 +1,63 @@
+@font-face {
+  font-family: "Zapf Chance";
+  src: url("ZapfChanceItalic.otf") format("opentype");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0px 16px;
+  box-sizing: border-box;
+}
+
+.name-input {
+  font-size: 30px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 16px;
+  margin-top: 16px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+canvas {
+  display: none;
+}
+
+.wallpapers {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.wallpapers .wallpaper {
+  max-height: 100px;
+  background-color: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 0;
+
+  height: 100px;
+  background-position: cover;
+  background-size: 100% 100%;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.wallpapers .wallpaper[data-selected="1"] {
+  box-shadow: 0px 0px 0px 3px rgba(255, 255, 255, 0.1) inset;
+  opacity: 1;
+}
