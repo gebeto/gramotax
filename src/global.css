@@ -22,14 +22,21 @@ main {
   box-sizing: border-box;
 }
 
-.name-input {
-  font-size: 30px;
+.input {
   width: 100%;
   text-align: center;
   margin-bottom: 16px;
   margin-top: 16px;
-  padding: 20px;
   box-sizing: border-box;
+}
+
+.name-input {
+  font-size: 30px;
+  padding: 20px;
+}
+
+.details-input {
+  font-size: 18px;
 }
 
 canvas {
