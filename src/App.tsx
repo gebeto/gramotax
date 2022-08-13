@@ -59,13 +59,13 @@ const createImageFromTemplate = async (
   wrapText(ctx, details, 810, 1420, 86);
 
   ctx.font = "48px Zapf Chance";
-  ctx.fillText("Генерал", 534, 1920);
+  ctx.fillText(grade, 534, 1920);
 
   ctx.font = "48px Zapf Chance";
-  ctx.fillText("Прізвище Ім'я", 1050, 1920);
+  ctx.fillText(name, 1050, 1920);
 
   ctx.font = "48px Zapf Chance";
-  ctx.fillText("01.01.2021", 770, 2030);
+  ctx.fillText(date, 770, 2030);
 
   const url = await fetch(ctx.canvas.toDataURL())
     .then((res) => res.blob())
@@ -74,32 +74,28 @@ const createImageFromTemplate = async (
   return url;
 };
 
-const useObjectForm = <T extends Record<string, string>>(initialValues: T) => {
-  const [values, setValues] = React.useState(initialValues);
-  return {
-    values,
-    handleChange: ({
-      target: { name, value },
-    }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setValues({
-        ...values,
-        [name]: value,
-      });
-    },
-  };
+const useField = (initialValue: string | (() => string)) => {
+  const [value, setValue] = React.useState(initialValue);
+  const _value = React.useDeferredValue(value);
+
+  return [
+    _value,
+    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setValue(e.target.value),
+  ] as const;
 };
 
 function App() {
   const [ctx, setCtx] = React.useState<CanvasRenderingContext2D>();
-  const { values, handleChange } = useObjectForm({
-    title: "Андрію Стирті",
-    details:
-      "Від імені особового складу військової частини #__\nта себе особисто висловлюємо Вам слова подяки\nза активну громадську позицію, вагомий внесок\nу справу зміцнення бойової готовності\nЗбройних сил України\nЗдоров’я Вам, сил, невичерпної енергії!",
-    grade: "asdasd",
-    name: "asdasd",
-    date: "01.01.2022",
-  });
-  const { title, details, grade, name, date } = React.useDeferredValue(values);
+  const [title, handleTitleChange] = useField("Андрію Стирті");
+  const [details, handleDetailsChange] = useField(
+    "Від імені особового складу військової частини #__\nта себе особисто висловлюємо Вам слова подяки\nза активну громадську позицію, вагомий внесок\nу справу зміцнення бойової готовності\nЗбройних сил України\nЗдоров’я Вам, сил, невичерпної енергії!"
+  );
+  const [grade, handleGradeChange] = useField("");
+  const [name, handleNameChange] = useField("");
+  const [date, handleDateChange] = useField(() =>
+    new Date().toLocaleDateString("ru-RU")
+  );
   const [result, setResult] = React.useState<string>();
 
   React.useEffect(() => {
@@ -124,20 +120,34 @@ function App() {
       <input
         className="input name-input"
         type="text"
-        value={title}
-        name="title"
-        onChange={handleChange}
+        defaultValue={title}
+        onChange={handleTitleChange}
         autoFocus
         placeholder="Ім'я Прізвище"
       />
       <textarea
         placeholder="Опис"
         className="input details-input"
-        value={details}
+        defaultValue={details}
         name="details"
-        onChange={handleChange}
+        onChange={handleDetailsChange}
         rows={10}
       ></textarea>
+      <input
+        defaultValue={grade}
+        onChange={handleGradeChange}
+        placeholder="Військова Посада"
+      />
+      <input
+        defaultValue={name}
+        onChange={handleNameChange}
+        placeholder="Прізвище Ім'я"
+      />
+      <input
+        defaultValue={date}
+        onChange={handleDateChange}
+        placeholder="Дата"
+      />
       <canvas
         ref={(canvas) => setCtx(canvas?.getContext("2d") || undefined)}
         width="1600"
