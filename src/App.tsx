@@ -51,7 +51,7 @@ const createImageFromTemplate = async (
   ctx.font = "128px Zapf Chance";
   ctx.textAlign = "center";
   ctx.fillStyle = "rgba(135, 15, 15, 0.9)";
-  ctx.fillText(text, image.width / 2, 1010, 1100);
+  wrapText(ctx, text, image.width / 2, 940, 128);
 
   ctx.font = "56px Zapf Chance";
   ctx.textAlign = "center";
@@ -126,14 +126,14 @@ function App() {
 
   return (
     <main>
-      <input
+      <textarea
         className="input name-input"
-        type="text"
         defaultValue={title}
         onChange={handleTitleChange}
         autoFocus
         placeholder="Ім'я Прізвище"
-      />
+        rows={2}
+      ></textarea>
       <textarea
         placeholder="Опис"
         className="input details-input"
